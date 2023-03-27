@@ -3,6 +3,7 @@ const point = (x, y) => {
 }
 //зочем...
 
+//проверить многочлен
 /* const points = [
     point(1, 2),
     point(2, -1),
@@ -10,6 +11,17 @@ const point = (x, y) => {
     point(6, -6),
 ]
  */
+
+//проверить сплайн
+/* const points = [
+    point(1, 2),
+    point(2, 3),
+    point(3, 5),
+    point(4, 3),
+    point(5, 4),
+    point(6, 6)
+] */
+
 let m = 10;
 let k = 9;
 let N = 28;
@@ -29,9 +41,18 @@ const points = [
 
 const round = num => Math.round(num * 100) / 100;
 
-function createZeroMatrix(size) {
+/* function createZeroMatrix(size) {
     return new Array(size).fill(0).map(row => new Array(size).fill(0));
+} */
+
+function createZeroVector(size) {
+    return new Array(size).fill(0);
 }
+
+function createZeroMatrix(size) {
+    return createZeroVector(size).map(row => createZeroVector(size));
+}
+
 
 const n = points.length;
 const vectX = [];
@@ -44,7 +65,6 @@ points.forEach(point => {
 function defineDividedDifferences(points) {
 
     const matrix = createZeroMatrix(n)
-    let num = 1;
     for (let i = 0; i < n; i++) {               //столбец
         for (let j = 0; j < n - i; j++) {       //строка
             if (i === 0) {
@@ -71,6 +91,108 @@ function defineYbyNewtonPoly(x) {
     return y;
 }
 
-//console.log(defineNewtonPoly())
 console.log(defineYbyNewtonPoly(0.3))
 console.log(points[2])
+
+///////////////////////
+//параболический сплайн
+
+//матеша
+
+function defineParabolicSpline(x) {
+    let a, b, c;
+    a = [];
+    b = [];
+    c = [];
+    b[0] = 0;
+
+    for (let i = 0; i < n - 1; i++) {
+        c[i] = vectY[i];
+        b[i + 1] = 2 * (vectY[i + 1] - vectY[i]) / (vectX[i + 1] - vectX[i]) - b[i];
+        a[i] = (b[i + 1] - b[i]) / (2 * (vectX[i + 1] - vectX[i]));
+    }
+
+    for (let i = 0; i < n - 1; i++) {
+        if (x > vectX[i] && x < vectX[i + 1]) {
+            return a[i] * Math.pow((x - vectX[i]), 2) + b[i] * (x - vectX[i]) + c[i];
+        }
+    }
+}
+
+//вывод графика
+const WINDOW = {
+    LEFT: -2,
+    BOTTOM: -10,
+    WIDTH: 4,
+    HEIGHT: 40
+}
+
+window.onload = () => {
+    const canvas = document.createElement('canvas');
+    document.querySelector('body').appendChild(canvas);
+
+    canvas.width = 600;
+    canvas.height = 600;
+    context = canvas.getContext('2d');
+
+
+    const xs = x => (x - WINDOW.LEFT) / WINDOW.WIDTH * canvas.width
+    const ys = y => (canvas.height - (y - WINDOW.BOTTOM) / WINDOW.HEIGHT * canvas.height)
+
+    const sx = x => x * WINDOW.WIDTH / canvas.width
+    const sy = y => -y * WINDOW.HEIGHT / canvas.height
+
+    function clear() {
+        context.fillStyle = 'rgb(252, 252, 252)';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function line(x1, y1, x2, y2, color = 'black') {
+        context.beginPath();
+        this.context.strokeStyle = color;
+        context.moveTo(xs(x1), ys(y1));
+        context.lineTo(xs(x2), ys(y2));
+        context.stroke();
+    }
+
+    function printOXY() {
+        const x = WINDOW.LEFT;
+        const y = WINDOW.BOTTOM;
+        for (let i = 0; i < x + WINDOW.WIDTH; i++) {
+            line(i, y + WINDOW.HEIGHT, i, y, 'gainsboro', 1);
+        }
+        for (let i = -1; i > x; i -= 1) {
+            line(i, y + WINDOW.HEIGHT, i, y, 'gainsboro', 1);
+        }
+        for (let i = 1; i < y + WINDOW.HEIGHT; i++) {
+            line(x, i, x + WINDOW.WIDTH, i, 'gainsboro', 1);
+        }
+        for (let i = -1; i > y; i -= 1) {
+            line(x, i, x + WINDOW.WIDTH, i, 'gainsboro', 1);
+        }
+
+        line(0, 0, 0, y + WINDOW.HEIGHT, 'black', 1);    //ось у
+        line(0, y, 0, 0, 'black', 1);
+        line(0, 0, x + WINDOW.WIDTH, 0, 'black', 1);     //ось х
+        line(x, 0, 0, 0, 'black', 1);
+    }
+
+    function printFunction(f, x1 = WINDOW.LEFT, x2 = WINDOW.LEFT + WINDOW.WIDTH) {
+
+        const dx = WINDOW.WIDTH / 300;
+        if (x1 > x2) {
+            const t = x1;
+            x1 = x2;
+            x2 = t;
+        }
+        while (x1 < x2) {
+            line(x1, f(x1), x1 + dx, f(x1 + dx));
+            x1 += dx;
+        }
+    }
+
+
+    clear();
+    printOXY();
+    printFunction(defineParabolicSpline);
+}
