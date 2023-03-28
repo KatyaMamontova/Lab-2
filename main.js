@@ -22,6 +22,7 @@ const point = (x, y) => {
     point(6, 6)
 ] */
 
+
 let m = 10;
 let k = 9;
 let N = 28;
@@ -139,9 +140,6 @@ window.onload = () => {
     const xs = x => (x - WINDOW.LEFT) / WINDOW.WIDTH * canvas.width
     const ys = y => (canvas.height - (y - WINDOW.BOTTOM) / WINDOW.HEIGHT * canvas.height)
 
-    const sx = x => x * WINDOW.WIDTH / canvas.width
-    const sy = y => -y * WINDOW.HEIGHT / canvas.height
-
     function clear() {
         context.fillStyle = 'rgb(252, 252, 252)';
         context.fillRect(0, 0, canvas.width, canvas.height);
@@ -155,20 +153,32 @@ window.onload = () => {
         context.stroke();
     }
 
+    function text(x, y, text) {
+        context.strokeStyle = 'grey';
+        //context.lineWidth = 1;
+        context.font = '11px Courier';
+        context.strokeText(text, xs(x), ys(y));
+    }
+
+
     function printOXY() {
         const x = WINDOW.LEFT;
         const y = WINDOW.BOTTOM;
         for (let i = 0; i < x + WINDOW.WIDTH; i++) {
             line(i, y + WINDOW.HEIGHT, i, y, 'gainsboro', 1);
+            text(i + 0.01, 0.3, i);
         }
         for (let i = -1; i > x; i -= 1) {
             line(i, y + WINDOW.HEIGHT, i, y, 'gainsboro', 1);
+            text(i, 0.3, i);
         }
         for (let i = 1; i < y + WINDOW.HEIGHT; i++) {
             line(x, i, x + WINDOW.WIDTH, i, 'gainsboro', 1);
+            text(0.02, i + 0.1, i);
         }
         for (let i = -1; i > y; i -= 1) {
             line(x, i, x + WINDOW.WIDTH, i, 'gainsboro', 1);
+            text(0.02, i + 0.1, i);
         }
 
         line(0, 0, 0, y + WINDOW.HEIGHT, 'black', 1);    //ось у
@@ -190,7 +200,6 @@ window.onload = () => {
             x1 += dx;
         }
     }
-
 
     clear();
     printOXY();
