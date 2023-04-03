@@ -1,6 +1,0 @@
-class NewtonPolynom {
-    constructor() {
-
-    }
-
-}
