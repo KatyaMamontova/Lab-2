@@ -1,20 +1,12 @@
 class ParabolicSpline extends Method {
     constructor(points) {
         super(points);
-        //проверить сплайн
-        /* const points = [
-            point(1, 2),
-            point(2, 3),
-            point(3, 5),
-            point(4, 3),
-            point(5, 4),
-            point(6, 6)
-        ] */
         //console.log('ParabolicSpline ', points)
         console.log('ParabolicSpline, this.vectX ', this.vectX)
     }
 
     defineParabolicSpline(x) {
+        console.log('this ', this)
         console.log('defineParabolicSpline ', this.vectX)
         let vectX = this.vectX;
         let vectY = this.vectY;

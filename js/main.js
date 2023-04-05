@@ -21,6 +21,24 @@ window.onload = () => {
         point(1.0, N),
     ]
 
+    //проверить многочлен
+   /*  const points = [
+        point(1, 2),
+        point(2, -1),
+        point(4, -2),
+        point(6, -6),
+    ] */    
+
+    //проверить сплайн
+    /* const points = [
+        point(1, 2),
+        point(2, 3),
+        point(3, 5),
+        point(4, 3),
+        point(5, 4),
+        point(6, 6)
+    ] */
+
     //проверить среднеквадратичное приближение
     /* const points = [
         point(-1, Math.exp(-1)),
@@ -31,11 +49,12 @@ window.onload = () => {
     ] */
 
     const WINDOW = {
-        LEFT: -2,
+        LEFT: -1,
         BOTTOM: -10,
         WIDTH: 4,
         HEIGHT: 40
     }
+    
     const parabolicSpline = new ParabolicSpline(points);
     const newtonPoly = new NewtonPolynom(points);
     //const rmsFitFunc = new BestRmsFitFunction(points, (x, i) => Math.pow(x, i), 3)
@@ -45,9 +64,11 @@ window.onload = () => {
     graph.clear();
     graph.printOXY();
 
-    //TODO не работает:
-    //printFunction(parabolicSpline.defineParabolicSpline);
+    const defineParabolicSpline = parabolicSpline.defineParabolicSpline.bind(parabolicSpline);
+    graph.printFunction(defineParabolicSpline);
+
+    const defineBestRmsFitFunc = rmsFitFunc.defineBestRmsFitFunc.bind(rmsFitFunc);
+    graph.printFunction(defineBestRmsFitFunc, 'blue');
 
     //console.log(newtonPoly.defineYbyNewtonPoly(0.3))
-
 }

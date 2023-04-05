@@ -24,7 +24,7 @@ class Graph {
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    line(x1, y1, x2, y2, color = 'black') {
+    line(x1, y1, x2, y2, color) {
         this.context.beginPath();
         this.context.strokeStyle = color;
         this.context.moveTo(this.xs(x1), this.ys(y1));
@@ -34,7 +34,6 @@ class Graph {
 
     text(x, y, text) {
         this.context.strokeStyle = 'grey';
-        //this.context.lineWidth = 1;
         this.context.font = '11px Courier';
         this.context.strokeText(text, this.xs(x), this.ys(y));
     }
@@ -65,7 +64,7 @@ class Graph {
         this.line(x, 0, 0, 0, 'black', 1);
     }
 
-    printFunction(f, x1 = this.WINDOW.LEFT, x2 = this.WINDOW.LEFT + this.WINDOW.WIDTH) {
+    printFunction(f, color = 'black', x1 = this.WINDOW.LEFT, x2 = this.WINDOW.LEFT + this.WINDOW.WIDTH) {
         const dx = this.WINDOW.WIDTH / 300;
         if (x1 > x2) {
             const t = x1;
@@ -73,7 +72,7 @@ class Graph {
             x2 = t;
         }
         while (x1 < x2) {
-            this.line(x1, f(x1), x1 + dx, f(x1 + dx));
+            this.line(x1, f(x1), x1 + dx, f(x1 + dx), color);
             x1 += dx;
         }
     }

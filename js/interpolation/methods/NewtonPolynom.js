@@ -4,14 +4,6 @@ class NewtonPolynom extends Method {
     //конструктор с параметрами для наследуемых классов
     constructor(points) {
         super(points);
-        //проверить многочлен
-        /* const points = [
-            point(1, 2),
-            point(2, -1),
-            point(4, -2),
-            point(6, -6),
-        ]
-         */
     }
 
     defineDividedDifferences() {

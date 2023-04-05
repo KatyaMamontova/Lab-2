@@ -49,7 +49,6 @@ class BestRmsFitFunction extends Method {
     defineBestRmsFitFunc(x) {
         let PHI = 0;
         const a = this.calculateCoefsA(this.phi);
-        console.log(`a = ${a}`)
         for (let j = 0; j < this.m; j++) {
             PHI += a[j] * this.phi(x, j)
         }
