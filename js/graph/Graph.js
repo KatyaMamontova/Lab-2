@@ -8,11 +8,15 @@ class Graph {
             HEIGHT: 10
         }
 
-        this.canvas = document.createElement('canvas');
-        document.querySelector('body').appendChild(this.canvas);
+        if (document.querySelector('canvas')) {
+            this.canvas = document.querySelector('canvas');
+        } else {
+            this.canvas = document.createElement('canvas');
+            document.querySelector('body').appendChild(this.canvas)
+        };
 
-        this.canvas.width = width? width : 600;
-        this.canvas.height = height? height : 600;
+        this.canvas.width = width;
+        this.canvas.height = height;
         this.context = this.canvas.getContext('2d');
     }
 
@@ -24,6 +28,16 @@ class Graph {
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    point(x, y, color = '#f00', size = 2) {
+        this.context.beginPath();
+        this.context.strokeStyle = color;
+        this.context.fillStyle = color;
+        this.context.lineWidth = 2;
+        this.context.arc(this.xs(x), this.ys(y), size, 0, 2 * Math.PI);
+        this.context.stroke();
+        this.context.fill();
+    }
+
     line(x1, y1, x2, y2, color) {
         this.context.beginPath();
         this.context.strokeStyle = color;
@@ -32,8 +46,8 @@ class Graph {
         this.context.stroke();
     }
 
-    text(x, y, text) {
-        this.context.strokeStyle = 'grey';
+    text(x, y, text, color = 'grey') {
+        this.context.strokeStyle = color;
         this.context.font = '11px Courier';
         this.context.strokeText(text, this.xs(x), this.ys(y));
     }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <title>Page Title</title>
@@ -12,8 +13,68 @@
     <script src='js/interpolation/methods/BestRmsFitFunction.js'></script>
     <script src='js/graph/Graph.js'></script>
     <script src='js/main.js'></script>
+    <style>
+        div {
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 10px;
+            border-color: rgb(204, 204, 204);
+            padding: 15px;
+            margin: 7px;
+        }
+
+        button {
+            width: 40px;
+            margin: 5px;
+        }
+
+        input {
+            width: 40px;
+        }
+
+        table {
+            width: 600px;
+            table-layout: fixed;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <div id='pointsOutput'>
+        <p><b>Заданные точки:</b></p>
+        <table>
+            <tr id='coordX'>
+                <td>x</td>
+            </tr>
+            <tr id='coordY'>
+                <td>y
+            </tr>
+            </tr>
+        </table>
+    </div>
+    <div id='newtonPolyOutput'>
+        <p><b>Интерполяционный многочлен Ньютона по заданным точкам:</b></p>
+    </div>
+    <div>
+        <p><b>Найти у </b>(через интерполяционный многочлен Ньютона):</p>
+        <p>f (<input placeholder="x" id="xInput">)<button id="getY">=</button>
+            <y id="yOutput"></y>
+        </p>
+    </div>
+    <div id='graphOutput'>
+        <br>
+        <list>
+            <font color="grey">
+                <li><b>Функция через полином Ньютона</b></li>
+            </font>
+            <li><b>Сплайн</b></li>
+            <font color="orange">
+                <li><b>Средеквадратичное приближение</b></li>
+            </font>
+        </list>
+        <br>
+        <canvas></canvas>
+    </div>
 </body>
+
 </html>

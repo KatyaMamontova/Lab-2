@@ -80,12 +80,4 @@ class SquareRootMethod {
             result
         };
     }
-
-    output(A, b) {
-        console.log('Метод квадратного корня');
-        console.log('___A___\n', A);
-        console.log('___b___\n', b);
-
-        console.log('___x___\n', this.solveTheEquation(A, b));
-    }
 }

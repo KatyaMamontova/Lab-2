@@ -6,6 +6,8 @@ class NewtonPolynom extends Method {
         super(points);
     }
 
+    round = x => Math.round(x * 100) / 100;
+
     defineDividedDifferences() {
 
         const matrix = this.matrMaths.createZeroMatrix(this.n)
@@ -33,5 +35,16 @@ class NewtonPolynom extends Method {
             xPolies *= x - this.vectX[i]
         }
         return y;
+    }
+
+    polynomInStr() {
+        let divDiffMatrix = this.defineDividedDifferences(this.points)
+        let xPolies = `(x - ${this.vectX[0]})`;
+        let str = `N(x) = ${this.round(this.vectY[0])}`;
+        for (let i = 1; i < this.n; i++) {
+            str += `+ ${this.round(divDiffMatrix[0][i])} * ${xPolies} `
+            xPolies += `(x - ${this.vectX[i]})`
+        }
+        return str;
     }
 }

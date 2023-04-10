@@ -22,12 +22,12 @@ window.onload = () => {
     ]
 
     //проверить многочлен
-   /*  const points = [
-        point(1, 2),
-        point(2, -1),
-        point(4, -2),
-        point(6, -6),
-    ] */    
+    /*  const points = [
+         point(1, 2),
+         point(2, -1),
+         point(4, -2),
+         point(6, -6),
+     ] */
 
     //проверить сплайн
     /* const points = [
@@ -50,25 +50,45 @@ window.onload = () => {
 
     const WINDOW = {
         LEFT: -1,
-        BOTTOM: -10,
+        BOTTOM: -5,
         WIDTH: 4,
         HEIGHT: 40
     }
-    
+
     const parabolicSpline = new ParabolicSpline(points);
     const newtonPoly = new NewtonPolynom(points);
-    //const rmsFitFunc = new BestRmsFitFunction(points, (x, i) => Math.pow(x, i), 3)
     const rmsFitFunc = new BestRmsFitFunction(points);
     const graph = new Graph(WINDOW);
 
     graph.clear();
     graph.printOXY();
+    points.forEach(point => graph.point(point.x, point.y))
+
+    const defineYbyNewtonPoly = newtonPoly.defineYbyNewtonPoly.bind(newtonPoly);
+    graph.printFunction(defineYbyNewtonPoly, 'grey');
 
     const defineParabolicSpline = parabolicSpline.defineParabolicSpline.bind(parabolicSpline);
     graph.printFunction(defineParabolicSpline);
 
     const defineBestRmsFitFunc = rmsFitFunc.defineBestRmsFitFunc.bind(rmsFitFunc);
-    graph.printFunction(defineBestRmsFitFunc, 'blue');
+    graph.printFunction(defineBestRmsFitFunc, 'orange');
 
-    //console.log(newtonPoly.defineYbyNewtonPoly(0.3))
+    //вывести в окне документа точки и многочлен Ньютона:   
+
+    const table = document.querySelector('table');
+    let strX = points.reduce((str, point) => str + `<td>${point.x}</td>`, '')
+    let strY = points.reduce((str, point) => str + `<td>${Math.round(point.y * 100) / 100}</td>`, '')
+    document.getElementById('pointsOutput').appendChild(table);
+    document.getElementById('coordX').innerHTML += strX
+    document.getElementById('coordY').innerHTML += strY
+    document.querySelectorAll('td').forEach(elem => {
+        elem.style.border = '1px solid'
+    })
+
+    document.getElementById('newtonPolyOutput').innerHTML += newtonPoly.polynomInStr();
+
+    document.getElementById('getY').addEventListener('click', () => {
+        let x = document.getElementById('xInput').value - 0;
+        document.getElementById('yOutput').innerHTML = newtonPoly.defineYbyNewtonPoly(x);
+    })
 }

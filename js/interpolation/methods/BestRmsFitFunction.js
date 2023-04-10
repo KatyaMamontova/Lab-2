@@ -1,19 +1,11 @@
-//TODO пока забила, нужно разобрать
-
 class BestRmsFitFunction extends Method {
     constructor(points, phi = 0, m = 0) {
         super(points);
 
         this.m = m ? m : 3;
         this.phi = phi ? phi : (x, i) => Math.pow(x, i) * (1 - x);
-        
-        this.sqrRootMethod = new SquareRootMethod();
 
-        /* for (let i = 0; i < this.n; i++) {
-            console.log(i)
-            console.log(this.defineBestRmsFitFunc(this.points[i].x))
-            console.log(this.points[i].y)
-        } */
+        this.sqrRootMethod = new SquareRootMethod();
     }
 
     calculateProximityMeasure() {
