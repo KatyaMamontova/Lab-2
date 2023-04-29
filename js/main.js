@@ -21,33 +21,6 @@ window.onload = () => {
         point(1.0, N),
     ]
 
-    //проверить многочлен
-    /*  const points = [
-         point(1, 2),
-         point(2, -1),
-         point(4, -2),
-         point(6, -6),
-     ] */
-
-    //проверить сплайн
-    /* const points = [
-        point(1, 2),
-        point(2, 3),
-        point(3, 5),
-        point(4, 3),
-        point(5, 4),
-        point(6, 6)
-    ] */
-
-    //проверить среднеквадратичное приближение
-    /* const points = [
-        point(-1, Math.exp(-1)),
-        point(-0.5, Math.exp(-0.5)),
-        point(0, Math.exp(0)),
-        point(0.5, Math.exp(0.5)),
-        point(1, Math.exp(1))
-    ] */
-
     const WINDOW = {
         LEFT: -1,
         BOTTOM: -5,
@@ -58,32 +31,35 @@ window.onload = () => {
     const parabolicSpline = new ParabolicSpline(points);
     const newtonPoly = new NewtonPolynom(points);
     const rmsFitFunc = new BestRmsFitFunction(points);
-    const graph = new Graph(WINDOW);
 
-    graph.clear();
-    graph.printOXY();
-    points.forEach(point => graph.point(point.x, point.y))
+    {
+        const graph = new Graph(WINDOW);
 
-    const defineYbyNewtonPoly = newtonPoly.defineYbyNewtonPoly.bind(newtonPoly);
-    graph.printFunction(defineYbyNewtonPoly, 'grey');
+        graph.clear();
+        graph.printOXY();
+        points.forEach(point => graph.point(point.x, point.y))
 
-    const defineParabolicSpline = parabolicSpline.defineParabolicSpline.bind(parabolicSpline);
-    graph.printFunction(defineParabolicSpline);
+        const defineYbyNewtonPoly = newtonPoly.defineYbyNewtonPoly.bind(newtonPoly);
+        graph.printFunction(defineYbyNewtonPoly, 'grey');
 
-    const defineBestRmsFitFunc = rmsFitFunc.defineBestRmsFitFunc.bind(rmsFitFunc);
-    graph.printFunction(defineBestRmsFitFunc, 'orange');
+        const defineParabolicSpline = parabolicSpline.defineParabolicSpline.bind(parabolicSpline);
+        graph.printFunction(defineParabolicSpline);
 
-    //вывести в окне документа точки и многочлен Ньютона:   
+        const defineBestRmsFitFunc = rmsFitFunc.defineBestRmsFitFunc.bind(rmsFitFunc);
+        graph.printFunction(defineBestRmsFitFunc, 'orange');
+    }
 
-    const table = document.querySelector('table');
-    let strX = points.reduce((str, point) => str + `<td>${point.x}</td>`, '')
-    let strY = points.reduce((str, point) => str + `<td>${Math.round(point.y * 100) / 100}</td>`, '')
-    document.getElementById('pointsOutput').appendChild(table);
-    document.getElementById('coordX').innerHTML += strX
-    document.getElementById('coordY').innerHTML += strY
-    document.querySelectorAll('td').forEach(elem => {
-        elem.style.border = '1px solid'
-    })
+    {
+        const table = document.querySelector('table');
+        let strX = points.reduce((str, point) => str + `<td>${point.x}</td>`, '')
+        let strY = points.reduce((str, point) => str + `<td>${Math.round(point.y * 100) / 100}</td>`, '')
+        document.getElementById('pointsOutput').appendChild(table);
+        document.getElementById('coordX').innerHTML += strX
+        document.getElementById('coordY').innerHTML += strY
+        document.querySelectorAll('td').forEach(elem => {
+            elem.style.border = '1px solid'
+        })
+    }
 
     document.getElementById('newtonPolyOutput').innerHTML += newtonPoly.polynomInStr();
 
